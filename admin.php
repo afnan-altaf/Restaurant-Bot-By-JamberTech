@@ -15,7 +15,7 @@ $firebaseConfig = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JavaGoat Admin | Premium Dashboard</title>
+    <title>RestaurantBot | Admin | JamberTech</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -363,7 +363,7 @@ $firebaseConfig = [
     <div class="main-wrapper">
         <div class="top-bar">
             <div class="mobile-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
-            <div style="font-weight: 700; color: var(--text-muted);">Admin Panel v2.0</div>
+            <div style="font-weight: 700; color: var(--text-muted);">Admin Panel v2.0 | JamberTech</div>
             <div id="userEmailDisplay" style="font-size: 0.85rem; font-weight: 600;"></div>
         </div>
 
@@ -374,8 +374,8 @@ $firebaseConfig = [
                 <div class="header-flex"><h1>Overview</h1></div>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-indian-rupee-sign"></i></div>
-                        <div class="stat-info"><h3 id="stat-revenue">₹0</h3><p>Revenue</p></div>
+                        <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div class="stat-info"><h3 id="stat-revenue">Rs 0</h3><p>Revenue</p></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-bag-shopping"></i></div>
@@ -438,7 +438,7 @@ $firebaseConfig = [
             <span class="close-modal">&times;</span>
             <h2 style="margin-bottom: 25px;">New Dish</h2>
             <input type="text" id="dishName" placeholder="Dish Name" class="login-box" style="box-shadow: none; padding: 12px; margin-bottom: 10px;">
-            <input type="number" id="dishPrice" placeholder="Price (₹)" class="login-box" style="box-shadow: none; padding: 12px; margin-bottom: 10px;">
+            <input type="number" id="dishPrice" placeholder="Price (Rs )" class="login-box" style="box-shadow: none; padding: 12px; margin-bottom: 10px;">
             <input type="text" id="dishImage" placeholder="Image URL" class="login-box" style="box-shadow: none; padding: 12px; margin-bottom: 20px;">
             <button class="btn-add" id="saveDishBtn" style="width: 100%; justify-content: center;">Save Item</button>
         </div>
@@ -543,7 +543,7 @@ $firebaseConfig = [
                         <td data-label="Items">
                             <div class="item-list">${itemsText}</div>
                         </td>
-                        <td data-label="Total" style="font-weight:800; color:var(--primary-dark)">₹${order.total}</td>
+                        <td data-label="Total" style="font-weight:800; color:var(--primary-dark)">Rs ${order.total}</td>
                         <td data-label="Status">
                             <select class="status-select ${statusClass}" onchange="updateOrderStatus('${order.id}', this.value)">
                                 <option value="Placed" ${status === 'Placed' ? 'selected' : ''}>Placed</option>
@@ -555,7 +555,7 @@ $firebaseConfig = [
                     `;
                     container.appendChild(tr);
                 });
-                $('stat-revenue').textContent = '₹' + revenue.toLocaleString();
+                $('stat-revenue').textContent = 'Rs ' + revenue.toLocaleString();
                 $('stat-orders').textContent = count;
             });
         }
@@ -579,7 +579,7 @@ $firebaseConfig = [
                             <img src="${item.imageUrl}">
                             <div class="admin-card-body">
                                 <h4>${item.name}</h4>
-                                <span style="font-weight:800; color:var(--primary)">₹${item.price}</span>
+                                <span style="font-weight:800; color:var(--primary)">Rs ${item.price}</span>
                             </div>
                         </div>
                     `;

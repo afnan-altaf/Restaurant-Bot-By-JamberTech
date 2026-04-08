@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password  = 'kzjlqgccbfrkhqsb';          
         // ============================================================
 
-        $subject = "Your JavaGoat Verification Code";
-        $message_body = "Your OTP Code is: " . $otp;
+        $subject = "Aapka Verification Code - JamberTech";
+        $message_body = "Aapka OTP Code: " . $otp;
 
         $result = send_smtp_mail($to, $subject, $message_body, $username, $password, $smtp_host, $smtp_port);
 
@@ -100,7 +100,7 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JavaGoat</title>
+    <title>RestaurantBot by JamberTech</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -470,8 +470,8 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
                 <div class="auth-card">
                     <div class="auth-header">
                         <div class="logo-circle"><i class="fas fa-leaf"></i></div>
-                        <h1>Welcome Back</h1>
-                        <p>Sign in to continue to JavaGoat</p>
+                        <h1>Khush Aamdeed!</h1>
+                        <p>JamberTech Restaurant Bot mein khush aamdeed</p>
                     </div>
                     
                     <div class="auth-body">
@@ -508,8 +508,8 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
                 <div class="auth-card">
                     <div class="auth-header">
                         <div class="logo-circle"><i class="fas fa-user-plus"></i></div>
-                        <h1>Create Account</h1>
-                        <p>Join the JavaGoat community</p>
+                        <h1>Naya Account Banayein</h1>
+                        <p>JamberTech family mein shamil hon</p>
                     </div>
                     
                     <div class="auth-body">
@@ -544,11 +544,11 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
             <header class="app-header">
                 <div class="header-top">
                     <h1><i class="fas fa-leaf" style="margin-right:10px;"></i> JavaGoat</h1>
-                    <div class="user-greeting" id="userGreeting">Hello, Guest</div>
+                    <div class="user-greeting" id="userGreeting">Assalam-o-Alaikum!</div>
                 </div>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="What are you craving?">
+                    <input type="text" placeholder="Kya khana chahte hain?">
                 </div>
             </header>
 
@@ -565,8 +565,8 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
 
                 <div class="promo-banner">
                     <div class="promo-content">
-                        <h3>50% OFF</h3>
-                        <p>On your first order today!</p>
+                        <h3>50% CHHOOT</h3>
+                        <p>Aaj pehle order par!</p>
                     </div>
                     <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Burger">
                 </div>
@@ -601,10 +601,10 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
             <div style="flex:1; padding:20px; overflow-y:auto;" id="cart-content-area">
                 <div id="cartItemsContainer"></div>
                 <div id="cart-summary" style="margin-top:30px; border-top:2px dashed var(--border-color); padding-top:25px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:500; color:var(--light-text);"><span>Subtotal</span><span id="subtotal-price" style="color:var(--text-color);">₹0.00</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:500; color:var(--light-text);"><span>Delivery Fee</span><span style="color:var(--text-color);">₹50.00</span></div>
-                    <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.5em; color:var(--primary-color); margin-top:15px;"><span>Total</span><span id="total-price">₹50.00</span></div>
-                    <button class="btn-main" id="goToCheckoutBtn" style="margin-top:30px;">Proceed to Checkout</button>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:500; color:var(--light-text);"><span>Subtotal</span><span id="subtotal-price" style="color:var(--text-color);">Rs 0.00</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-weight:500; color:var(--light-text);"><span>Delivery Charge</span><span style="color:var(--text-color);">Rs 50.00</span></div>
+                    <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.5em; color:var(--primary-color); margin-top:15px;"><span>Total</span><span id="total-price">Rs 50.00</span></div>
+                    <button class="btn-main" id="goToCheckoutBtn" style="margin-top:30px;">Checkout Par Jao</button>
                 </div>
             </div>
         </div>
@@ -653,15 +653,15 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
                 </div>
 
                 <div class="form-group" style="margin-top:30px;">
-                    <label>Payment Method</label>
+                    <label>Payment Ka Tarika</label>
                     <div style="padding:18px; background:white; border:2px solid var(--primary-color); border-radius:16px; display:flex; align-items:center; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
                         <i class="fas fa-money-bill-wave" style="color:var(--primary-color); margin-right:15px; font-size:1.5em;"></i>
-                        <span style="font-weight:700; color:var(--text-color);">Cash on Delivery</span>
+                        <span style="font-weight:700; color:var(--text-color);">Cash on Delivery (COD)</span>
                         <i class="fas fa-check-circle" style="color:var(--primary-color); margin-left:auto; font-size:1.2em;"></i>
                     </div>
                 </div>
 
-                <button class="btn-main" id="placeOrderBtn" disabled style="margin-top:20px;">Enter Phone OR Verify Email</button>
+                <button class="btn-main" id="placeOrderBtn" disabled style="margin-top:20px;">Phone Number ya Email Verify Karein</button>
             </div>
         </div>
 
@@ -681,7 +681,7 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
                 <h2>Notifications</h2>
             </header>
             <div style="flex:1; padding:20px; overflow-y:auto;" id="notificationListContainer">
-                <p style="text-align:center; color:#94a3b8; font-weight:500; margin-top:50px;">Loading...</p>
+                <p style="text-align:center; color:#94a3b8; font-weight:500; margin-top:50px;">Intezaar karein...</p>
             </div>
         </div>
 
@@ -691,10 +691,10 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
                 <div style="width:110px; height:110px; background:#ecfdf5; border-radius:30px; display:flex; justify-content:center; align-items:center; margin-bottom:25px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);">
                     <i class="fas fa-check" style="font-size:3.5em; color:var(--primary-color);"></i>
                 </div>
-                <h2 style="color:var(--text-color); font-weight:800; font-size:2em; margin-bottom:10px;">Order Placed!</h2>
-                <p style="color:var(--light-text); font-size:1.1em; font-weight:500;">Your food is being prepared.</p>
-                <button class="btn-main" id="trackOrderBtn" style="margin-top:40px;">Track Order</button>
-                <a href="#" id="backToHomeBtn" style="margin-top:20px; display:block; color:var(--light-text); text-decoration:none; font-weight:600; font-size:1.1em;">Back to Home</a>
+                <h2 style="color:var(--text-color); font-weight:800; font-size:2em; margin-bottom:10px;">Order Ho Gaya!</h2>
+                <p style="color:var(--light-text); font-size:1.1em; font-weight:500;">Aapka khana tayyar ho raha hai.</p>
+                <button class="btn-main" id="trackOrderBtn" style="margin-top:40px;">Order Track Karein</button>
+                <a href="#" id="backToHomeBtn" style="margin-top:20px; display:block; color:var(--light-text); text-decoration:none; font-weight:600; font-size:1.1em;">Wapis Jao</a>
             </div>
         </div>
 
@@ -846,11 +846,11 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
             if (phoneVal.length > 5 || isVerified) {
                 orderBtn.disabled = false;
                 orderBtn.style.opacity = '1';
-                orderBtn.textContent = "Confirm Order";
+                orderBtn.textContent = "Order Confirm Karein";
             } else {
                 orderBtn.disabled = true;
                 orderBtn.style.opacity = '0.6';
-                orderBtn.textContent = "Enter Phone OR Verify Email";
+                orderBtn.textContent = "Phone Number ya Email Verify Karein";
             }
         }
 
@@ -909,9 +909,9 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
         function renderDishes(dishesList) {
             const c = document.getElementById('dishesContainer');
             c.innerHTML = '';
-            if(dishesList.length === 0) { c.innerHTML = '<p style="padding:15px; color:#94a3b8; font-weight:500;">No dishes found.</p>'; return; }
+            if(dishesList.length === 0) { c.innerHTML = '<p style="padding:15px; color:#94a3b8; font-weight:500;">Koi dish nahi mili.</p>'; return; }
             dishesList.forEach(d => {
-                c.innerHTML += `<div class="card"><img src="${d.imageUrl}"><button class="add-btn" onclick="addToCart('${d.key}','${d.name}',${d.price},'${d.imageUrl}')"><i class="fas fa-plus"></i></button><div class="card-content"><h3>${d.name}</h3><p>₹${d.price}</p></div></div>`;
+                c.innerHTML += `<div class="card"><img src="${d.imageUrl}"><button class="add-btn" onclick="addToCart('${d.key}','${d.name}',${d.price},'${d.imageUrl}')"><i class="fas fa-plus"></i></button><div class="card-content"><h3>${d.name}</h3><p>Rs ${d.price}</p></div></div>`;
             });
         }
 
@@ -936,10 +936,10 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
             let sub=0;
             cart.forEach(i => {
                 sub+=i.price*i.quantity;
-                c.innerHTML += `<div class="cart-item"><img src="${i.img}"><div style="flex:1;"><h4>${i.name}</h4><p>₹${i.price}</p></div><div class="qty-controls"><button onclick="modQty('${i.id}',-1)">-</button><span>${i.quantity}</span><button onclick="modQty('${i.id}',1)">+</button></div></div>`;
+                c.innerHTML += `<div class="cart-item"><img src="${i.img}"><div style="flex:1;"><h4>${i.name}</h4><p>Rs ${i.price}</p></div><div class="qty-controls"><button onclick="modQty('${i.id}',-1)">-</button><span>${i.quantity}</span><button onclick="modQty('${i.id}',1)">+</button></div></div>`;
             });
-            document.getElementById('subtotal-price').textContent = `₹${sub.toFixed(2)}`;
-            document.getElementById('total-price').textContent = `₹${(sub+50).toFixed(2)}`;
+            document.getElementById('subtotal-price').textContent = `Rs ${sub.toFixed(2)}`;
+            document.getElementById('total-price').textContent = `Rs ${(sub+50).toFixed(2)}`;
         }
 
         window.modQty = (id,n) => {
@@ -1041,18 +1041,18 @@ function send_smtp_mail($to, $subject, $body, $user, $pass, $host, $port) {
             if (ordersListener) { ordersListener.off(); ordersListener = null; }
             if (!currentUser) return;
 
-            container.innerHTML = '<p style="text-align:center; padding:20px; color:#94a3b8; font-weight:500;">Loading...</p>';
+            container.innerHTML = '<p style="text-align:center; padding:20px; color:#94a3b8; font-weight:500;">Intezaar karein...</p>';
             ordersListener = db.ref('orders');
             
             ordersListener.on('value', s => {
                 container.innerHTML = '';
-                if (!s.exists()) { container.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:500; padding:20px;">No active orders.</p>'; return; }
+                if (!s.exists()) { container.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:500; padding:20px;">Abhi koi order nahi hai.</p>'; return; }
                 const arr =[];
                 s.forEach(childSnap => {
                     const val = childSnap.val();
                     if (val.userId === currentUser.uid) { arr.push({ k: childSnap.key, ...val }); }
                 });
-                if (arr.length === 0) { container.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:500; padding:20px;">No active orders.</p>'; return; }
+                if (arr.length === 0) { container.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight:500; padding:20px;">Abhi koi order nahi hai.</p>'; return; }
                 arr.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
                 let html = '';

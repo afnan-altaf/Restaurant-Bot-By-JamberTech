@@ -2,19 +2,18 @@ const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLat
 const qrcode = require('qrcode-terminal');
 const pino = require('pino');
 
-// 🌟 SECURE FIREBASE URL FROM GITHUB SECRETS 🌟
+// 🌟 FIREBASE URL FROM GITHUB SECRETS 🌟
 const FIREBASE_URL = process.env.FIREBASE_URL;
 
 const orderStates = {}; 
 
-// Function to fetch the dynamic menu from your App's Firebase
+// Firebase se live menu fetch karo
 async function getMenuFromApp() {
     try {
         const response = await fetch(`${FIREBASE_URL}/dishes.json`);
         const data = await response.json();
-        if (!data) return[];
+        if (!data) return [];
         
-        // Convert Firebase object into an array (now includes imageUrl)
         return Object.keys(data).map(key => ({
             id: key,
             name: data[key].name,
@@ -22,14 +21,14 @@ async function getMenuFromApp() {
             imageUrl: data[key].imageUrl
         }));
     } catch (error) {
-        console.error("Failed to fetch menu:", error);
-        return[];
+        console.error("Menu fetch error:", error);
+        return [];
     }
 }
 
 async function startBot() {
     if (!FIREBASE_URL) {
-        console.log("❌ ERROR: FIREBASE_URL is missing in GitHub Secrets!");
+        console.log("❌ ERROR: FIREBASE_URL GitHub Secrets mein nahi hai!");
         process.exit(1);
     }
 
@@ -41,7 +40,7 @@ async function startBot() {
         auth: state,
         printQRInTerminal: false,
         logger: pino({ level: 'silent' }),
-        browser:["S", "K", "1"] 
+        browser: ["S", "K", "1"] 
     });
 
     sock.ev.on('connection.update', (update) => {
@@ -50,12 +49,12 @@ async function startBot() {
         if (qr) {
             console.clear(); 
             console.log('\n==================================================');
-            console.log('⚠️ QR CODE TOO BIG? CLICK "View raw logs" in top right!');
+            console.log('⚠️ QR CODE BARA HA? "View raw logs" par click karein!');
             console.log('==================================================\n');
             qrcode.generate(qr, { small: true }); 
         }
 
-        if (connection === 'open') console.log('✅ JAVAGOAT AI IS ONLINE!');
+        if (connection === 'open') console.log('✅ JAMBERTECH RESTAURANT BOT ONLINE HA!');
         if (connection === 'close') {
             const reason = lastDisconnect?.error?.output?.statusCode;
             if (reason !== DisconnectReason.loggedOut) startBot();
@@ -67,115 +66,124 @@ async function startBot() {
     sock.ev.on('messages.upsert', async (m) => {
         const msg = m.messages[0];
         if (!msg.message || msg.key.remoteJid === 'status@broadcast') return;
-        if (msg.key.fromMe) return; // Loop Protection
+        if (msg.key.fromMe) return;
 
         const sender = msg.key.remoteJid;
         const text = (msg.message.conversation || msg.message.extendedTextMessage?.text || "").toLowerCase();
 
-        console.log(`📩 Query: ${text}`);
+        console.log(`📩 Message: ${text}`);
 
-        // --- 🛒 STEP 2: FINISH ORDER & SEND TO ADMIN PANEL ---
+        // --- STEP 2: ADDRESS LENA AUR ORDER SAVE KARNA ---
         if (orderStates[sender]?.step === 'WAITING_FOR_ADDRESS') {
-            const customerDetails = text; // This now contains Name, Phone, and Address
+            const customerDetails = text;
             const item = orderStates[sender].item;
             const customerWaNumber = sender.split('@')[0];
 
-            // Match the exact format of your JavaGoat Admin Panel
-            const javaGoatOrder = {
+            const order = {
                 userId: "whatsapp_" + customerWaNumber,
-                userEmail: "whatsapp@javagoat.com",
-                phone: customerWaNumber, // Keeps their WA number registered
-                address: customerDetails, // Saves Name, Phone, and Address typed by them
+                userEmail: "whatsapp@jambertech.com",
+                phone: customerWaNumber,
+                address: customerDetails,
                 location: { lat: 0, lng: 0 },
-                items:[{
+                items: [{
                     id: item.id,
                     name: item.name,
                     price: parseFloat(item.price),
                     img: item.imageUrl || "",
                     quantity: 1
                 }],
-                total: (parseFloat(item.price) + 50).toFixed(2), // Price + 50 Delivery Fee
+                total: (parseFloat(item.price) + 100).toFixed(2), // Rs 100 delivery charge
                 status: "Placed",
                 method: "Cash on Delivery (WhatsApp)",
                 timestamp: new Date().toISOString()
             };
 
-            // Save order securely via REST API
             try {
                 await fetch(`${FIREBASE_URL}/orders.json`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(javaGoatOrder)
+                    body: JSON.stringify(order)
                 });
             } catch (error) {
                 console.log("Firebase Error: ", error);
             }
 
-            await sock.sendMessage(sender, { text: `✅ *Order Placed Successfully!* \n\nThank you! Your order for *${item.name}* is being prepared. \n\n*Total:* ₹${javaGoatOrder.total} (Inc. Delivery)\n*Status:* Preparing\n\nWe will deliver it to your address soon.` });
+            await sock.sendMessage(sender, { 
+                text: `✅ *Order Ho Gaya!* 🎉\n\nShukria! Aapka *${item.name}* ka order receive ho gaya hai.\n\n*Total:* Rs ${order.total} (Delivery Shamil)\n*Status:* Tayyar Ho Raha Hai\n\nHum jald hi aapke address par deliver kar dein ge. Shukria! 🙏` 
+            });
             delete orderStates[sender]; 
             return;
         }
 
-        // --- 🌟 STEP 1: START ORDER FLOW (WITH IMAGE & PHONE REQUEST) ---
+        // --- STEP 1: ORDER SHURU KARNA ---
         if (text.startsWith("order ")) {
             const productRequested = text.replace("order ", "").trim().toLowerCase();
             const currentMenu = await getMenuFromApp();
             
-            // Search the live database for the requested item
             const matchedItem = currentMenu.find(item => item.name.toLowerCase().includes(productRequested));
 
             if (!matchedItem) {
-                await sock.sendMessage(sender, { text: `❌ Sorry, we couldn't find *${productRequested}* in our menu today.\n\nType *menu* to see all available items.` });
+                await sock.sendMessage(sender, { 
+                    text: `❌ Maafi chahta hoon, *${productRequested}* aaj hamare menu mein nahi hai.\n\n*menu* type karein poora menu dekhne ke liye.` 
+                });
                 return;
             }
 
             orderStates[sender] = { step: 'WAITING_FOR_ADDRESS', item: matchedItem };
             
-            // 🌟 NEW: SEND PRODUCT IMAGE + ASK FOR PHONE NUMBER 🌟
-            const captionText = `🛒 *Order Started!* \n\nYou selected: *${matchedItem.name}* (₹${matchedItem.price})\n\nPlease reply with your *Full Name, Phone Number, and Delivery Address*.`;
+            const captionText = `🛒 *Order Shuru Ho Gaya!*\n\nAapne select kiya: *${matchedItem.name}* (Rs ${matchedItem.price})\n\nBrahye apna *Poora Naam, Phone Number aur Delivery Address* reply mein bhejein.`;
             
-            // If the product has an image URL in Firebase, send it as a WhatsApp Photo
             if (matchedItem.imageUrl) {
                 await sock.sendMessage(sender, { 
                     image: { url: matchedItem.imageUrl }, 
                     caption: captionText 
                 });
             } else {
-                // Fallback if no image is found
                 await sock.sendMessage(sender, { text: captionText });
             }
         }
         else if (text === "order") { 
-            await sock.sendMessage(sender, { text: "🛒 *How to order:* \nPlease type 'order' followed by the dish name. \nExample: *order pizza*" });
+            await sock.sendMessage(sender, { 
+                text: "🛒 *Order Kaise Karein:*\n'order' ke baad dish ka naam likhein.\nMisal: *order pizza*" 
+            });
         }
         
-        // --- DYNAMIC MENU FEATURE ---
-        else if (text.includes("menu") || text.includes("price") || text.includes("list") || text.includes("food")) {
+        // --- LIVE MENU ---
+        else if (text.includes("menu") || text.includes("price") || text.includes("list") || text.includes("khana") || text.includes("food")) {
             const currentMenu = await getMenuFromApp();
             
             if (currentMenu.length === 0) {
-                await sock.sendMessage(sender, { text: "Our menu is currently empty or updating. Please check back soon!" });
+                await sock.sendMessage(sender, { text: "Hamare menu mein abhi kuch nahi hai. Thodi der baad dobara check karein!" });
                 return;
             }
 
-            let menuMessage = "🍔 *JAVAGOAT LIVE MENU* 🍕\n\n";
+            let menuMessage = "🍔 *JAMBERTECH RESTAURANT - LIVE MENU* 🍕\n\n";
             currentMenu.forEach(item => {
-                menuMessage += `🔸 *${item.name}* - ₹${item.price}\n`;
+                menuMessage += `🔸 *${item.name}* - Rs ${item.price}\n`;
             });
-            menuMessage += "\n_To order, reply with 'order [dish name]'_";
+            menuMessage += "\n_Order karne ke liye: 'order [dish ka naam]' likhein_";
             
             await sock.sendMessage(sender, { text: menuMessage });
         }
 
-        // --- GREETINGS ---
-        else if (text.includes("hi") || text.includes("hello") || text.includes("hey")) {
-            await sock.sendMessage(sender, { text: "👋 *Welcome to JavaGoat!* \n\nI am your AI Assistant. Type *menu* to see our delicious food, or type *order [dish]* to buy instantly!" });
+        // --- SALAM ---
+        else if (text.includes("hi") || text.includes("hello") || text.includes("salam") || text.includes("assalam") || text.includes("hey")) {
+            await sock.sendMessage(sender, { 
+                text: "👋 *Assalam-o-Alaikum! JamberTech Restaurant mein Khush Aamdeed!* 🇵🇰\n\nMain aapka AI Assistant hoon.\n📋 *menu* type karein khana dekhne ke liye\n🛒 *order [dish]* type karein order karne ke liye!" 
+            });
         }
-        else if (text.includes("contact") || text.includes("call")) {
-            await sock.sendMessage(sender, { text: "📞 *Contact JavaGoat:* \n\n- *Email:* support@javagoat.com" });
+        else if (text.includes("contact") || text.includes("call") || text.includes("rabta")) {
+            await sock.sendMessage(sender, { 
+                text: "📞 *JamberTech Restaurant se Rabta:*\n\n- *Email:* support@jambertech.com\n- *WhatsApp:* Is number par message karein" 
+            });
+        }
+        else if (text.includes("shukriya") || text.includes("thanks") || text.includes("thank")) {
+            await sock.sendMessage(sender, { text: "🙏 *Shukriya!* Dobara tashreef layein. JamberTech Restaurant har waqt aapki khidmat mein hazir hai! 🇵🇰" });
         }
         else {
-            await sock.sendMessage(sender, { text: "🤔 I didn't quite catch that.\n\nType *menu* to see our food list, or *order [food]* to place an order!" });
+            await sock.sendMessage(sender, { 
+                text: "🤔 Mujhe samajh nahi aaya.\n\n📋 *menu* type karein khane ki list dekhne ke liye\n🛒 *order [khana]* type karein order karne ke liye!" 
+            });
         }
     });
 }
